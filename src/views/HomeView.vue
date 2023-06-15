@@ -4,7 +4,7 @@
     <n-gi>
       <n-card title="统计信息" style="max-width: 600px">
         <n-grid x-gap="12" :cols="4">
-          <n-gi>
+          <n-gi v-if="user.type == 'ADMIN'">
             <n-statistic label="用户数量" tabular-nums :value="userCount" />
           </n-gi>
           <n-gi>
@@ -64,32 +64,29 @@ const orderConfirmtCount = ref<number>(0);
 const orderRejectCount = ref<number>(0);
 const orderFinishCount = ref<number>(0);
 
-fetchA<User[]>("/api/user/getAll", null, message).then((response) => {
-  if (response != null) {
-    userCount.value = response.length;
-  }
-});
 fetchA<Product[]>("/api/product/getAll", null, message).then((response) => {
   if (response != null) {
     productCount.value = response.length;
   }
 });
-fetchA<Order[]>("/api/order/getAll", null, message).then((response) => {
-  if (response != null) {
-    orderSubmitCount.value = response.filter(
-      (o) => o.orderStatus == "SUBMIT"
-    ).length;
-    orderConfirmtCount.value = response.filter(
-      (o) => o.orderStatus == "CONFIRM"
-    ).length;
-    orderRejectCount.value = response.filter(
-      (o) => o.orderStatus == "REJECT"
-    ).length;
-    orderFinishCount.value = response.filter(
-      (o) => o.orderStatus == "FINISH"
-    ).length;
+fetchA<Order[]>("/api/order/getOrdersByShopId", null, message).then(
+  (response) => {
+    if (response != null) {
+      orderSubmitCount.value = response.filter(
+        (o) => o.orderStatus == "SUBMIT"
+      ).length;
+      orderConfirmtCount.value = response.filter(
+        (o) => o.orderStatus == "CONFIRM"
+      ).length;
+      orderRejectCount.value = response.filter(
+        (o) => o.orderStatus == "REJECT"
+      ).length;
+      orderFinishCount.value = response.filter(
+        (o) => o.orderStatus == "FINISH"
+      ).length;
+    }
   }
-});
+);
 
 const user = ref<User>({
   id: 0,
@@ -102,6 +99,13 @@ const user = ref<User>({
 fetchA<User>("/api/user/getMyUserInfo", null, message).then((response) => {
   if (response != null) {
     user.value = response;
+    if (user.value.type == "ADMIN") {
+      fetchA<User[]>("/api/user/getAll", null, message).then((response) => {
+        if (response != null) {
+          userCount.value = response.length;
+        }
+      });
+    }
   }
 });
 </script>
