@@ -93,12 +93,15 @@ const columns: DataTableColumns<Order> = [
   },
 ];
 
-const updatePage = () => {
-  fetchA<Order[]>("/api/order/getAll", null, message).then((response) => {
-    if (response != null) {
-      data.value = response;
-    }
-  });
+const updatePage = async () => {
+  let response = await fetchA<Order[]>(
+    "/api/order/getOrdersByShopId",
+    null,
+    message
+  );
+  if (response != null) {
+    data.value = response;
+  }
 };
 updatePage();
 </script>

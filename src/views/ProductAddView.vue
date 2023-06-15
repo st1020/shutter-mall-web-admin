@@ -23,8 +23,21 @@
           placeholder="输入价格"
         />
       </n-form-item>
+      <n-form-item label="库存" path="stock">
+        <n-input-number
+          v-model:value="formValue.stock"
+          placeholder="输入库存"
+        />
+      </n-form-item>
       <n-form-item label="图片URL" path="picture">
         <n-input v-model:value="formValue.picture" placeholder="输入图片" />
+      </n-form-item>
+      <n-form-item label="详情" path="detail">
+        <n-input
+          type="textarea"
+          v-model:value="formValue.detail"
+          placeholder="输入详情"
+        />
       </n-form-item>
       <n-form-item>
         <n-button attr-type="button" @click="handleValidateClick">
@@ -40,7 +53,7 @@ import { ref } from "vue";
 import type { FormInst, FormRules } from "naive-ui";
 import { useMessage } from "naive-ui";
 import { fetchA } from "@/utils";
-import type { Product } from "@/types";
+import type { Product, User } from "@/types";
 import router from "@/router";
 
 const formRef = ref<FormInst | null>(null);
@@ -52,16 +65,24 @@ if (token == undefined) {
   router.push("/login");
 }
 
-// @ts-ignore
 const formValue = ref<Product>({
-  id: null,
+  id: 1,
   name: "",
   description: "",
   specification: "",
   price: 0,
-  createDate: null,
-  lastModifiedDate: null,
+  createDate: "",
+  lastModifiedDate: "",
   picture: "",
+  shopInfo: {
+    id: 0,
+    name: "Loading",
+    email: "Loading",
+    type: "USER",
+    createDate: "",
+  },
+  stock: 0,
+  detail: "",
 });
 
 const rules: FormRules = {
@@ -89,25 +110,41 @@ const rules: FormRules = {
     type: "number",
     trigger: ["input", "blur"],
   },
+  stock: {
+    required: true,
+    message: "请输入",
+    type: "number",
+    trigger: ["input", "blur"],
+  },
   picture: {
     required: true,
     message: "请输入",
     type: "string",
     trigger: ["input", "blur"],
   },
+  detail: {
+    required: true,
+    message: "请输入",
+    type: "string",
+    trigger: ["input", "blur"],
+  },
 };
-const handleValidateClick = () => {
-  fetchA<Product>(
+const handleValidateClick = async () => {
+  let user = await fetchA<User>("/api/user/getMyUserInfo", null, message);
+  if (user == null) {
+    return;
+  }
+  formValue.value.shopInfo = user;
+  let response = await fetchA<Product>(
     "/api/product/addProduct",
     JSON.stringify(formValue.value),
     message
-  ).then((response) => {
-    if (response != null) {
-      formValue.value = response;
-      message.info("添加成功！");
-    } else {
-      message.info("添加失败！");
-    }
-  });
+  );
+  if (response != null) {
+    formValue.value = response;
+    message.info("添加成功！");
+  } else {
+    message.info("添加失败！");
+  }
 };
 </script>

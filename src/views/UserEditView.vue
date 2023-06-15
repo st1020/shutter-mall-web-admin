@@ -77,6 +77,10 @@ const selectOptions = [
     value: "USER",
   },
   {
+    label: "商家",
+    value: "MANAGER",
+  },
+  {
     label: "管理员",
     value: "ADMIN",
   },
