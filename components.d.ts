@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/OrderStatistics copy.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     HeaderBar: typeof import('./src/components/HeaderBar.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -15,6 +16,7 @@ declare module '@vue/runtime-core' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    MStatistics: typeof import('./src/components/MStatistics.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NCol: typeof import('naive-ui')['NCol']
@@ -42,8 +44,11 @@ declare module '@vue/runtime-core' {
     NSpace: typeof import('naive-ui')['NSpace']
     NStatistic: typeof import('naive-ui')['NStatistic']
     NText: typeof import('naive-ui')['NText']
+    OrderStatistics: typeof import('./src/components/OrderStatistics.vue')['default']
+    PhysicalStore: typeof import('./src/components/PhysicalStore.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SalesStatistics: typeof import('./src/components/SalesStatistics.vue')['default']
     SideFooter: typeof import('./src/components/SideFooter.vue')['default']
     SiderBar: typeof import('./src/components/SiderBar.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']

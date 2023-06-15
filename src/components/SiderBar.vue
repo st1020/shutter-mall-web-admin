@@ -28,6 +28,7 @@ import type { RouteLocationRaw } from "vue-router";
 import type { Component } from "vue";
 import {
   HomeOutline as HomeIcon,
+  BarChartOutline as StatisticsIcon,
   PeopleOutline as UserIcon,
   LogInOutline as LoginIcon,
   PersonOutline as PersonIcon,
@@ -52,6 +53,11 @@ const menuOptions: MenuOption[] = [
     label: renderLink("主页", "/"),
     key: "home",
     icon: renderIcon(HomeIcon),
+  },
+  {
+    label: renderLink("数据统计", "/statistics"),
+    key: "statistics",
+    icon: renderIcon(StatisticsIcon),
   },
   {
     key: "divider-1",
