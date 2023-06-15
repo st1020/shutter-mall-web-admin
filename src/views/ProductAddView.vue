@@ -65,14 +65,12 @@ if (token == undefined) {
   router.push("/login");
 }
 
+// @ts-ignore
 const formValue = ref<Product>({
-  id: 1,
   name: "",
   description: "",
   specification: "",
   price: 0,
-  createDate: "",
-  lastModifiedDate: "",
   picture: "",
   shopInfo: {
     id: 0,
